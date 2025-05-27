@@ -1,0 +1,42 @@
+name: Feature Branch CI & PR to Development
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+
+jobs:
+  test-and-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build NestJS app
+        run: npm run build
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Create Pull Request to development
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: development
+          branch: ${{ github.ref_name }}
+          title: 'Auto PR: Merge ${{ github.ref_name }} to development'
+          body: |
+            This pull request was automatically created from a push to the `${{ github.ref_name }}` branch.
+            Please review and merge if everything looks good.

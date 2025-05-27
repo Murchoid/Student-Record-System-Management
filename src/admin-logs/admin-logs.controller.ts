@@ -1,33 +1,44 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AdminLogsService } from './admin-logs.service';
 import { CreateAdminLogDto } from './dto/create-admin-log.dto';
 import { UpdateAdminLogDto } from './dto/update-admin-log.dto';
 
-@Controller('admin-logs')
+@Controller('api/admin')
 export class AdminLogsController {
   constructor(private readonly adminLogsService: AdminLogsService) {}
 
-  @Post()
+  @Post('/login')
   create(@Body() createAdminLogDto: CreateAdminLogDto) {
     return this.adminLogsService.create(createAdminLogDto);
   }
 
-  @Get()
+  @Get('logs')
   findAll() {
     return this.adminLogsService.findAll();
   }
 
-  @Get(':id')
+  @Get('logs/:id')
   findOne(@Param('id') id: string) {
     return this.adminLogsService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdminLogDto: UpdateAdminLogDto) {
+  @Patch('logs/:id')
+  update(
+    @Param('id') id: string,
+    @Body() updateAdminLogDto: UpdateAdminLogDto,
+  ) {
     return this.adminLogsService.update(+id, updateAdminLogDto);
   }
 
-  @Delete(':id')
+  @Delete('logs/:id')
   remove(@Param('id') id: string) {
     return this.adminLogsService.remove(+id);
   }
