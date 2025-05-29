@@ -40,7 +40,7 @@ export class AdminsService {
     if (name) {
       return this.adminRepository.findOne({
         where: { username: name },
-        relations:[/* relation table */]
+        relations:["admin_profile"]
       });
     }
 

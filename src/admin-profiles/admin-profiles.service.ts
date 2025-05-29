@@ -16,19 +16,28 @@ export class AdminProfilesService {
     return this.adminProfileRepository.save(createAdminProfileDto);
   }
 
-  findAll() {
-    return `This action returns all adminProfiles`;
+   findAll(name ?: string) {
+    if(name){
+      const userProfile = this.adminProfileRepository.find({
+        where:{first_name: name}
+      });
+      
+      return userProfile;
+    }
+    return this.adminProfileRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} adminProfile`;
+    return this.adminProfileRepository.findOne({
+      where:{id}
+    })
   }
 
   update(id: number, updateAdminProfileDto: UpdateAdminProfileDto) {
-    return `This action updates a #${id} adminProfile`;
+    return this.adminProfileRepository.update(id, updateAdminProfileDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} adminProfile`;
+    return this.adminProfileRepository.delete(id);
   }
 }
