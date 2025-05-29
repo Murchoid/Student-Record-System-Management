@@ -11,6 +11,8 @@ import { AdminsModule } from './admins/admins.module';
 import { CourseInrollmentsModule } from './course_inrollments/course_inrollments.module';
 import { PasswordChangesModule } from './password-changes/password-changes.module';
 import { AdminProfilesModule } from './admin-profiles/admin-profiles.module';
+import { ConfigModule } from '@nestjs/config';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
@@ -24,6 +26,11 @@ import { AdminProfilesModule } from './admin-profiles/admin-profiles.module';
     CourseInrollmentsModule,
     PasswordChangesModule,
     AdminProfilesModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      //envFilePath: '.env'
+    }),
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -15,7 +15,7 @@ import { UpdateAdminLogDto } from './dto/update-admin-log.dto';
 export class AdminLogsController {
   constructor(private readonly adminLogsService: AdminLogsService) {}
 
-  @Post('/login')
+  @Post('logs')
   create(@Body() createAdminLogDto: CreateAdminLogDto) {
     return this.adminLogsService.create(createAdminLogDto);
   }

@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdminLogDto } from './dto/create-admin-log.dto';
 import { UpdateAdminLogDto } from './dto/update-admin-log.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AdminLog } from './entities/admin-log.entity';
 
 @Injectable()
 export class AdminLogsService {
+  constructor(
+    @InjectRepository(AdminLog)
+    private adminlogsRepository: Repository<AdminLog>,
+  ) {}
+
   create(createAdminLogDto: CreateAdminLogDto) {
-    return 'This action adds a new adminLog';
+    return this.adminlogsRepository.save(createAdminLogDto);
   }
 
   findAll() {
-    return `This action returns all adminLogs`;
+
+    return this.adminlogsRepository.find(
+      {relations:['admin']}
+    )
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} adminLog`;
+    return this.adminlogsRepository.findOne({
+      where: {login_id: id}
+    })
   }
 
   update(id: number, updateAdminLogDto: UpdateAdminLogDto) {
-    return `This action updates a #${id} adminLog`;
+    return this.adminlogsRepository.update(id, updateAdminLogDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} adminLog`;
+    return this.adminlogsRepository.delete(id);
   }
 }
