@@ -1,6 +1,14 @@
 import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
 import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Relation,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class Admin {
@@ -22,9 +30,10 @@ export class Admin {
   @Column()
   is_superadmin: boolean;
 
-  @OneToOne(() => AdminLog, (adminLog) => adminLog.admin)
+  @OneToMany(() => AdminLog, (adminLog) => adminLog.admin)
   admin_logs: Relation<AdminLog>;
 
-  @OneToOne(()=> AdminProfile, (adminProfile)=> adminProfile.admin_id)
+  @OneToOne(() => AdminProfile)
+  @JoinColumn() 
   profile: Relation<AdminProfile>;
 }

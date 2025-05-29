@@ -7,15 +7,13 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class AdminProfilesService {
-
   constructor(
     @InjectRepository(AdminProfile)
-    private adminProfileRepository: Repository<AdminProfile>
-
-  ){}
+    private adminProfileRepository: Repository<AdminProfile>,
+  ) {}
 
   create(createAdminProfileDto: CreateAdminProfileDto) {
-      return this.adminProfileRepository.save(createAdminProfileDto);
+    return this.adminProfileRepository.save(createAdminProfileDto);
   }
 
   findAll() {

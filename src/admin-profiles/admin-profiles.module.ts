@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminProfile } from './entities/admin-profile.entity';
 
 @Module({
-  imports:[AdminProfilesModule, TypeOrmModule.forFeature([AdminProfile])],
+  imports: [AdminProfilesModule, TypeOrmModule.forFeature([AdminProfile])],
   controllers: [AdminProfilesController],
   providers: [AdminProfilesService],
 })

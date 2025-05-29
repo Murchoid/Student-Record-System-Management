@@ -13,6 +13,8 @@ import { PasswordChangesModule } from './password-changes/password-changes.modul
 import { AdminProfilesModule } from './admin-profiles/admin-profiles.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
+import { StudentsModule } from './students/students.module';
+import { SeedDataModule } from './seed-data/seed-data.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { DatabaseModule } from './database/database.module';
       //envFilePath: '.env'
     }),
     DatabaseModule,
+    StudentsModule,
+    SeedDataModule,
   ],
   controllers: [AppController],
   providers: [AppService],

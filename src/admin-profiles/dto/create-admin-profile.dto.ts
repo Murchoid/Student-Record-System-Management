@@ -7,8 +7,8 @@ export class CreateAdminProfileDto {
   @IsString()
   last_name: string;
 
-  @IsInt()
-  phone_number: number;
+  @IsString()
+  phone_number: string;
 
   @IsString()
   address: string;

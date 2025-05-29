@@ -2,9 +2,9 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
   JoinColumn,
-  Relation
+  Relation,
+  ManyToOne,
 } from 'typeorm';
 import { Admin } from 'src/admins/entities/admin.entity';
 
@@ -13,16 +13,13 @@ export class AdminLog {
   @PrimaryGeneratedColumn()
   login_id: number;
 
-  @Column()
+  @Column('date', { nullable: true })
   login_time: Date;
 
-  @Column()
+  @Column('date', { nullable: true })
   logout_time: Date;
 
-  @OneToMany(() => Admin, (admin) => admin.admin_logs, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(() => Admin, (admin)=> admin.admin_logs)
   @JoinColumn()
   admin: Relation<Admin>;
 }

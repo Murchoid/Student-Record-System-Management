@@ -17,16 +17,13 @@ export class AdminLogsService {
   }
 
   findAll() {
-
-    return this.adminlogsRepository.find(
-      {relations:['admin']}
-    )
+    return this.adminlogsRepository.find({ relations: ['Admin'] });
   }
 
   findOne(id: number) {
     return this.adminlogsRepository.findOne({
-      where: {login_id: id}
-    })
+      where: { login_id: id },
+    });
   }
 
   update(id: number, updateAdminLogDto: UpdateAdminLogDto) {

@@ -1,32 +1,33 @@
-import { Admin } from "src/admins/entities/admin.entity";
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, Relation } from "typeorm";
+import { Admin } from 'src/admins/entities/admin.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  Relation,
+} from 'typeorm';
 
 @Entity()
 export class AdminProfile {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @Column()
+  first_name: string;
 
-    @OneToOne(()=> Admin, (admin)=> admin.profile,  {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-    @JoinColumn()
-    admin_id: Relation<Admin>;
+  @Column()
+  last_name: string;
 
-    @Column()
-    first_name: string;
+  @Column()
+  phone_number: string;
 
-    @Column()
-    last_name: string
+  @Column()
+  address: string;
 
-    @Column()
-    phone_number: number;
+  @Column()
+  profile_picture: string;
 
-    @Column()
-    address: string;
-
-    @Column()
-    profile_picture: string;
-
+  @OneToOne(() => Admin, (admin) => admin.profile)
+  admin: Relation<Admin>;
 }
