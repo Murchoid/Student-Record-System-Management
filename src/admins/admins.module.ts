@@ -3,10 +3,10 @@ import { AdminsService } from './admins.service';
 import { AdminsController } from './admins.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from './entities/admin.entity';
-import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
+import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
 
 @Module({
-  imports: [AdminsModule, TypeOrmModule.forFeature([Admin])],
+  imports: [AdminsModule, TypeOrmModule.forFeature([Admin, AdminProfile])],
   controllers: [AdminsController],
   providers: [AdminsService],
 })

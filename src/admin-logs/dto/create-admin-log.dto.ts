@@ -6,4 +6,5 @@ export class CreateAdminLogDto {
 
   @IsDate()
   logout_time: Date;
+
 }

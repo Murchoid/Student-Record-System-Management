@@ -1,11 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAdminProfileDto } from './dto/create-admin-profile.dto';
 import { UpdateAdminProfileDto } from './dto/update-admin-profile.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AdminProfile } from './entities/admin-profile.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AdminProfilesService {
+
+  constructor(
+    @InjectRepository(AdminProfile)
+    private adminProfileRepository: Repository<AdminProfile>
+
+  ){}
+
   create(createAdminProfileDto: CreateAdminProfileDto) {
-    return createAdminProfileDto;
+      return this.adminProfileRepository.save(createAdminProfileDto);
   }
 
   findAll() {

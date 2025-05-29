@@ -1,4 +1,4 @@
-import { IsString, IsDate, IsBoolean, IsInt } from 'class-validator';
+import { IsString, IsDate, IsBoolean, IsInt, IsNotEmpty, IsEmail } from 'class-validator';
 
 export class CreateAdminDto {
   @IsString()
@@ -7,7 +7,8 @@ export class CreateAdminDto {
   @IsString()
   password: string;
 
-  @IsString()
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @IsDate()
@@ -15,4 +16,7 @@ export class CreateAdminDto {
 
   @IsBoolean()
   is_superadmin: boolean;
+
+    @IsInt()
+  adminProfileId: number;
 }

@@ -1,5 +1,6 @@
 import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn, Relation } from 'typeorm';
 
 @Entity()
 export class Admin {
@@ -13,11 +14,17 @@ export class Admin {
   password: string;
 
   @Column()
+  email: string;
+
+  @Column()
   last_login: Date;
 
   @Column()
-  is_superadminn: boolean;
+  is_superadmin: boolean;
 
   @OneToOne(() => AdminLog, (adminLog) => adminLog.admin)
-  admin_logs: AdminLog;
+  admin_logs: Relation<AdminLog>;
+
+  @OneToOne(()=> AdminProfile, (adminProfile)=> adminProfile.admin_id)
+  profile: Relation<AdminProfile>;
 }

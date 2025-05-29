@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   JoinColumn,
+  Relation
 } from 'typeorm';
 import { Admin } from 'src/admins/entities/admin.entity';
 
@@ -18,7 +19,10 @@ export class AdminLog {
   @Column()
   logout_time: Date;
 
-  @OneToMany(() => Admin, (admin) => admin.admin_logs)
+  @OneToMany(() => Admin, (admin) => admin.admin_logs, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
-  admin: Admin;
+  admin: Relation<Admin>;
 }
