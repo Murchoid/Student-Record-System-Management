@@ -15,6 +15,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { StudentsModule } from './students/students.module';
 import { SeedDataModule } from './seed-data/seed-data.module';
+import { AuditLogsModule } from './audit_logs/audit_logs.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { SeedDataModule } from './seed-data/seed-data.module';
     DatabaseModule,
     StudentsModule,
     SeedDataModule,
+    AuditLogsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

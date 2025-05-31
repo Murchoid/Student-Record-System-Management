@@ -1,5 +1,6 @@
 import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
 import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
+import { PasswordChange } from 'src/password-changes/entities/password-change.entity';
 import {
   Column,
   Entity,
@@ -31,9 +32,14 @@ export class Admin {
   is_superadmin: boolean;
 
   @OneToMany(() => AdminLog, (adminLog) => adminLog.admin)
-  admin_logs: Relation<AdminLog>;
+  @JoinColumn()
+  admin_logs: Relation<AdminLog[]>;
 
   @OneToOne(() => AdminProfile)
   @JoinColumn() 
   profile: Relation<AdminProfile>;
+
+  @OneToMany(()=>PasswordChange, (passwordChange)=>passwordChange.admin_id)
+  @JoinColumn()
+  password_change: Relation<PasswordChange[]>;
 }

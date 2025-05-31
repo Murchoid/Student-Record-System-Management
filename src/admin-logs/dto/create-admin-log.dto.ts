@@ -9,6 +9,4 @@ export class CreateAdminLogDto {
   @IsOptional()
   logout_time: Date;
 
-  @IsInt()
-  admin_id: number
 }

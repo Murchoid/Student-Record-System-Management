@@ -1,4 +1,6 @@
 import { CourseInrollment } from 'src/course_inrollments/entities/course_inrollment.entity';
+import { Report } from 'src/reports/entities/report.entity';
+import { Subject } from 'src/subjects/entities/subject.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,6 +9,9 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Relation,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
 } from 'typeorm';
 
 @Entity()
@@ -37,4 +42,12 @@ export class Course {
     (courseInrollment) => courseInrollment.course_id,
   )
   courseInrolled: Relation<CourseInrollment>;
+
+  @OneToMany(()=>Subject, (subject)=>subject.course)
+  @JoinColumn()
+  subject: Relation<Subject[]>
+
+  @OneToOne(()=>Report)
+  @JoinColumn()
+  report: Relation<Report>;
 }

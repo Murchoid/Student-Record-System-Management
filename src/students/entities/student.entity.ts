@@ -1,10 +1,13 @@
 import { CourseInrollment } from 'src/course_inrollments/entities/course_inrollment.entity';
+import { Report } from 'src/reports/entities/report.entity';
 import {
   Column,
   Entity,
   ManyToOne,
   Relation,
   PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
@@ -28,7 +31,7 @@ export class Student {
   gender: string;
 
   @Column()
-  phone_number: number;
+  phone_number: string;
 
   @Column()
   address: string;
@@ -56,4 +59,8 @@ export class Student {
     (courseInrollment) => courseInrollment.student_id,
   )
   courseInrolled: Relation<CourseInrollment>;
+
+  @OneToOne(()=> Report)
+  @JoinColumn()
+  report: Relation<Report>
 }

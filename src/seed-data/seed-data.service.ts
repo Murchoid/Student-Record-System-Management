@@ -3,6 +3,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
 import { Admin } from 'src/admins/entities/admin.entity';
+import { Student } from 'src/students/entities/student.entity';
 import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
@@ -74,6 +75,24 @@ export class SeedDataService {
             admin.profile = savedProfile;
 
             const saveAdmin = await this.adminRepository.save(admin);
+        
+            const student = new Student();
+
+            student.first_name = faker.person.firstName();
+            student.last_name = faker.person.lastName();
+            student.phone_number = faker.phone.number();
+            student.email = faker.internet.email({
+                firstName: student.first_name,
+                provider: "gmail.com"
+            });
+            student.dob = faker.date.birthdate();
+            student.address = faker.location.streetAddress();
+            student.city = faker.location.city();
+            student.country = faker.location.country();
+            student.state = faker.location.state();
+            student.status = (i%2 === 0) ? 'Active' : 'Inactive';
+            student.profile_picture = faker.system.filePath();
+            student.gender = faker.person.gender();
         }
 
 
