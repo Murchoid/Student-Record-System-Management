@@ -1,18 +1,18 @@
-import { IsDate, IsInt, IsString } from "class-validator";
+import { IsDate, IsInt, IsString } from 'class-validator';
 
 export class CreateAuditLogDto {
-    @IsInt()
-    user_id: number;
+  @IsInt()
+  user_id: number;
 
-    @IsString()
-    action: string;
+  @IsString()
+  action: string;
 
-    @IsDate()
-    timestamp: Date;
+  @IsDate()
+  timestamp: Date;
 
-    @IsString()
-    entity_affected: string;
+  @IsString()
+  entity_affected: string;
 
-    @IsString()
-    ip_address: string;
+  @IsString()
+  ip_address: string;
 }

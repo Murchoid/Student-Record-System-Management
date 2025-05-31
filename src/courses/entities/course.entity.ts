@@ -35,7 +35,7 @@ export class Course {
   description: string;
 
   @Column()
-  status: 'Acticve' | 'Inactive';
+  status: string;
 
   @ManyToOne(
     () => CourseInrollment,
@@ -43,11 +43,11 @@ export class Course {
   )
   courseInrolled: Relation<CourseInrollment>;
 
-  @OneToMany(()=>Subject, (subject)=>subject.course)
+  @OneToMany(() => Subject, (subject) => subject.course)
   @JoinColumn()
-  subject: Relation<Subject[]>
+  subject: Relation<Subject[]>;
 
-  @OneToOne(()=>Report)
+  @OneToOne(() => Report)
   @JoinColumn()
   report: Relation<Report>;
 }

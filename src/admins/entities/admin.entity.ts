@@ -36,10 +36,10 @@ export class Admin {
   admin_logs: Relation<AdminLog[]>;
 
   @OneToOne(() => AdminProfile)
-  @JoinColumn() 
+  @JoinColumn()
   profile: Relation<AdminProfile>;
 
-  @OneToMany(()=>PasswordChange, (passwordChange)=>passwordChange.admin_id)
+  @OneToMany(() => PasswordChange, (passwordChange) => passwordChange.admin_id)
   @JoinColumn()
   password_change: Relation<PasswordChange[]>;
 }

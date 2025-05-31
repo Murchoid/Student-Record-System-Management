@@ -16,12 +16,12 @@ export class AdminProfilesService {
     return this.adminProfileRepository.save(createAdminProfileDto);
   }
 
-   findAll(name ?: string) {
-    if(name){
+  findAll(name?: string) {
+    if (name) {
       const userProfile = this.adminProfileRepository.find({
-        where:{first_name: name}
+        where: { first_name: name },
       });
-      
+
       return userProfile;
     }
     return this.adminProfileRepository.find();
@@ -29,12 +29,12 @@ export class AdminProfilesService {
 
   findOne(id: number) {
     return this.adminProfileRepository.findOne({
-      where:{id}
-    })
+      where: { id },
+    });
   }
 
   update(id: number, updateAdminProfileDto: UpdateAdminProfileDto) {
-    return this.adminProfileRepository.update(id, updateAdminProfileDto)
+    return this.adminProfileRepository.update(id, updateAdminProfileDto);
   }
 
   remove(id: number) {

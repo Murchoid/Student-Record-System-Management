@@ -19,6 +19,6 @@ export class AdminLog {
   @Column('date', { nullable: true })
   logout_time: Date;
 
-  @ManyToOne(() => Admin, (admin)=> admin.admin_logs)
+  @ManyToOne(() => Admin, (admin) => admin.admin_logs)
   admin: Relation<Admin>;
 }

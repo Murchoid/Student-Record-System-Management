@@ -60,7 +60,7 @@ export class Student {
   )
   courseInrolled: Relation<CourseInrollment>;
 
-  @OneToOne(()=> Report)
+  @OneToOne(() => Report)
   @JoinColumn()
-  report: Relation<Report>
+  report: Relation<Report>;
 }

@@ -19,28 +19,29 @@ export class AdminsService {
     private adminLogRepository: Repository<AdminLogsModule>,
   ) {}
 
- async create(createAdminDto: CreateAdminDto): Promise<Admin> {
-  const { adminProfileId, ...adminData } = createAdminDto;
+  async create(createAdminDto: CreateAdminDto): Promise<Admin> {
+    const { adminProfileId, ...adminData } = createAdminDto;
 
-  const profile = await this.adminProfileRepository.findOneBy({ id: adminProfileId });
-  if (!profile) {
-    throw new NotFoundException('Admin profile not found');
+    const profile = await this.adminProfileRepository.findOneBy({
+      id: adminProfileId,
+    });
+    if (!profile) {
+      throw new NotFoundException('Admin profile not found');
+    }
+
+    const admin = this.adminRepository.create({
+      ...adminData,
+      profile,
+    });
+
+    return this.adminRepository.save(admin);
   }
-
-  const admin = this.adminRepository.create({
-    ...adminData,
-    profile,
-  });
-
-  return this.adminRepository.save(admin);
-}
-
 
   findAll(name?: string) {
     if (name) {
       return this.adminRepository.findOne({
         where: { username: name },
-        relations:["admin_profile"]
+        relations: ['admin_profile'],
       });
     }
 
