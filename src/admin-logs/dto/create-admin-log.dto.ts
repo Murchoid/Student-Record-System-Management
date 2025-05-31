@@ -1,4 +1,4 @@
-import { IsDate, IsInt, IsOptional } from 'class-validator';
+import { IsDate, IsOptional } from 'class-validator';
 
 export class CreateAdminLogDto {
   @IsDate()

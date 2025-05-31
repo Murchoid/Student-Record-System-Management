@@ -2,6 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
@@ -14,18 +15,18 @@ export class CourseInrollment {
   @PrimaryGeneratedColumn()
   enrollment_id: number;
 
-  @OneToMany(() => Student, (student) => student.courseInrolled)
+  @ManyToOne(() => Student, (student) => student.courseInrolled)
   @JoinColumn()
   student_id: Relation<Student>;
 
-  @OneToMany(() => Course, (course) => course.courseInrolled)
+  @ManyToOne(() => Course, (course) => course.courseInrolled)
   @JoinColumn()
-  course_id: Relation<Course>;
+  course: Relation<Course>;
 
   @Column()
   enroll_date: Date;
 
-  @Column()
+  @Column({nullable: true})
   grade: string;
 
   @Column()

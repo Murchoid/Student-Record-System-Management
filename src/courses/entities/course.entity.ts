@@ -37,11 +37,14 @@ export class Course {
   @Column()
   status: string;
 
-  @ManyToOne(
+  @OneToMany(
     () => CourseInrollment,
-    (courseInrollment) => courseInrollment.course_id,
+    (courseInrollment) => courseInrollment.course,{
+    cascade: true,
+    onDelete: 'CASCADE'
+  }
   )
-  courseInrolled: Relation<CourseInrollment>;
+  courseInrolled: Relation<CourseInrollment[]>;
 
   @OneToMany(() => Subject, (subject) => subject.course)
   @JoinColumn()

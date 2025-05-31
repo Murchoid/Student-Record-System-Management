@@ -4,7 +4,6 @@ import {
   PrimaryGeneratedColumn,
   Column,
   OneToOne,
-  JoinColumn,
   Relation,
 } from 'typeorm';
 
@@ -28,6 +27,9 @@ export class AdminProfile {
   @Column()
   profile_picture: string;
 
-  @OneToOne(() => Admin, (admin) => admin.profile)
+  @OneToOne(() => Admin, (admin) => admin.profile,{
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
   admin: Relation<Admin>;
 }

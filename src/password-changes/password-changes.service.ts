@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePasswordChangeDto } from './dto/create-password-change.dto';
 import { UpdatePasswordChangeDto } from './dto/update-password-change.dto';
+import { PasswordChange } from './entities/password-change.entity';
+import { PasswordChangesModule } from './password-changes.module';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PasswordChangesService {
+  constructor(
+    @InjectRepository(PasswordChange)
+    private readonly passwordChangeRepository: Repository<PasswordChangesModule>,
+  ) {}
+
   create(createPasswordChangeDto: CreatePasswordChangeDto) {
-    return 'This action adds a new passwordChange';
+    return this.passwordChangeRepository.save(createPasswordChangeDto);
   }
 
   findAll() {
-    return `This action returns all passwordChanges`;
+    return this.passwordChangeRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} passwordChange`;
+    return this.passwordChangeRepository.findOneBy({
+      where: { id },
+    });
   }
 
   update(id: number, updatePasswordChangeDto: UpdatePasswordChangeDto) {
-    return `This action updates a #${id} passwordChange`;
+    return this.passwordChangeRepository.update(id, updatePasswordChangeDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} passwordChange`;
+    return this.passwordChangeRepository.delete(id);
   }
 }

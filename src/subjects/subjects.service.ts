@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { Subject } from 'typeorm/persistence/Subject';
+import { SubjectsModule } from './subjects.module';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class SubjectsService {
+  constructor(
+    @InjectRepository(Subject)
+    private readonly subjectRepository: Repository<SubjectsModule>,
+  ) {}
+
   create(createSubjectDto: CreateSubjectDto) {
-    return 'This action adds a new subject';
+    return this.subjectRepository.save(createSubjectDto);
   }
 
   findAll() {
-    return `This action returns all subjects`;
+    return this.subjectRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} subject`;
+    return this.subjectRepository.findOneBy({
+      where: { id },
+    });
   }
 
   update(id: number, updateSubjectDto: UpdateSubjectDto) {
-    return `This action updates a #${id} subject`;
+    return this.subjectRepository.update(id, updateSubjectDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} subject`;
+    return this.subjectRepository.delete(id);
   }
 }

@@ -1,4 +1,4 @@
-import { IsInt, IsString, IsDate, IsIn } from 'class-validator';
+import { IsInt, IsString, IsDate } from 'class-validator';
 
 export class CreateFeedbackDto {
   @IsInt()

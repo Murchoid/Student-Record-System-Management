@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCourseInrollmentDto } from './dto/create-course_inrollment.dto';
 import { UpdateCourseInrollmentDto } from './dto/update-course_inrollment.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CourseInrollment } from './entities/course_inrollment.entity';
+import { Repository } from 'typeorm';
+import { CourseInrollmentsModule } from './course_inrollments.module';
 
 @Injectable()
 export class CourseInrollmentsService {
+  constructor(
+    @InjectRepository(CourseInrollment)
+    private readonly courseInrollmentRepository: Repository<CourseInrollmentsModule>,
+  ) {}
+
   create(createCourseInrollmentDto: CreateCourseInrollmentDto) {
-    return 'This action adds a new courseInrollment';
+    return this.courseInrollmentRepository.save(createCourseInrollmentDto);
   }
 
   findAll() {
-    return `This action returns all courseInrollments`;
+    return this.courseInrollmentRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} courseInrollment`;
+    return this.courseInrollmentRepository.findOneBy({
+      where: { id },
+    });
   }
 
   update(id: number, updateCourseInrollmentDto: UpdateCourseInrollmentDto) {
-    return `This action updates a #${id} courseInrollment`;
+    return this.courseInrollmentRepository.update(
+      id,
+      updateCourseInrollmentDto,
+    );
   }
 
   remove(id: number) {
-    return `This action removes a #${id} courseInrollment`;
+    return this.courseInrollmentRepository.delete(id);
   }
 }

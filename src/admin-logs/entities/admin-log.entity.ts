@@ -2,7 +2,6 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  JoinColumn,
   Relation,
   ManyToOne,
 } from 'typeorm';
@@ -19,6 +18,9 @@ export class AdminLog {
   @Column('date', { nullable: true })
   logout_time: Date;
 
-  @ManyToOne(() => Admin, (admin) => admin.admin_logs)
+  @ManyToOne(() => Admin, (admin) => admin.admin_logs,{
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
   admin: Relation<Admin>;
 }

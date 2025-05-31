@@ -3,11 +3,11 @@ import { Report } from 'src/reports/entities/report.entity';
 import {
   Column,
   Entity,
-  ManyToOne,
   Relation,
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -54,11 +54,14 @@ export class Student {
   @Column()
   profile_picture: string;
 
-  @ManyToOne(
+  @OneToMany(
     () => CourseInrollment,
-    (courseInrollment) => courseInrollment.student_id,
+    (courseInrollment) => courseInrollment.student_id,{
+    cascade: true,
+    onDelete: 'CASCADE'
+  }
   )
-  courseInrolled: Relation<CourseInrollment>;
+  courseInrolled: Relation<CourseInrollment[]>;
 
   @OneToOne(() => Report)
   @JoinColumn()

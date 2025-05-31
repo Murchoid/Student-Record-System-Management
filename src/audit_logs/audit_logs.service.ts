@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuditLogDto } from './dto/create-audit_log.dto';
 import { UpdateAuditLogDto } from './dto/update-audit_log.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { AuditLog } from './entities/audit_log.entity';
+import { Repository } from 'typeorm';
+import { AuditLogsModule } from './audit_logs.module';
 
 @Injectable()
 export class AuditLogsService {
+  constructor(
+    @InjectRepository(AuditLog)
+    private readonly auditLogRepository: Repository<AuditLogsModule>,
+  ) {}
+
   create(createAuditLogDto: CreateAuditLogDto) {
-    return 'This action adds a new auditLog';
+    return this.auditLogRepository.create(createAuditLogDto);
   }
 
   findAll() {
-    return `This action returns all auditLogs`;
+    return this.auditLogRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} auditLog`;
+    return this.auditLogRepository.findOneBy({
+      where: { id },
+    });
   }
 
   update(id: number, updateAuditLogDto: UpdateAuditLogDto) {
-    return `This action updates a #${id} auditLog`;
+    return this.auditLogRepository.update(id, updateAuditLogDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} auditLog`;
+    return this.auditLogRepository.delete(id);
   }
 }

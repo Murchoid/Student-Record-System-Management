@@ -54,14 +54,14 @@ export class SeedDataService {
         this.logger.log('Clearing table begins..');
         await queryRunner.query('DELETE FROM admin;');
         await queryRunner.query('DELETE FROM admin_profile;');
-        await queryRunner.query('DELETE FROM student;');
-        await queryRunner.query('DELETE FROM course;');
         await queryRunner.query('DELETE FROM subject;');
-        await queryRunner.query('DELETE FROM report;');
         await queryRunner.query('DELETE FROM feedback;');
         await queryRunner.query('DELETE FROM admin_log;');
         await queryRunner.query('DELETE FROM password_change;');
         await queryRunner.query('DELETE FROM course_inrollment;');
+        await queryRunner.query('DELETE FROM course;');
+        await queryRunner.query('DELETE FROM student;');
+        await queryRunner.query('DELETE FROM report;');
         await queryRunner.query('DELETE FROM audit_log;');
         await queryRunner.commitTransaction();
         this.logger.log('Finished clearing tables');
@@ -73,6 +73,7 @@ export class SeedDataService {
         await queryRunner.release();
       }
 
+      this.logger.log("Starting to insert data...");
       for (let i = 0; i < 10; i++) {
         // AdminProfile
         const adminProfile = new AdminProfile();
@@ -142,7 +143,7 @@ export class SeedDataService {
         report.course = savedCourse;
         report.report_data = faker.lorem.paragraph();
         report.report_date = faker.date.recent();
-        const savedReport = await this.reportRepository.save(report);
+        await this.reportRepository.save(report);
 
         // Feedback
         const feedback = new Feedback();
@@ -170,8 +171,9 @@ export class SeedDataService {
         // CourseInrollment
         const courseInrollment = new CourseInrollment();
         courseInrollment.student_id = savedStudent;
-        courseInrollment.course_id = savedCourse;
+        courseInrollment.course = savedCourse;
         courseInrollment.enroll_date = faker.date.past();
+        courseInrollment.status = (1 %2 === 0) ? 'Active' : 'Inactive';
         await this.courseInrollmentRepository.save(courseInrollment);
 
         // AuditLog
@@ -183,6 +185,8 @@ export class SeedDataService {
         auditLog.ip_address = faker.internet.ip();
         await this.auditLogRepository.save(auditLog);
       }
+
+      this.logger.log('Finished inserting data..');
     } catch (err) {
       this.logger.error('An error occurred when creating tables ', err);
     }
