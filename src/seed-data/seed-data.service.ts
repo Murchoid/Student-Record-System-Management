@@ -73,7 +73,7 @@ export class SeedDataService {
         await queryRunner.release();
       }
 
-      this.logger.log("Starting to insert data...");
+      this.logger.log('Starting to insert data...');
       for (let i = 0; i < 10; i++) {
         // AdminProfile
         const adminProfile = new AdminProfile();
@@ -173,7 +173,7 @@ export class SeedDataService {
         courseInrollment.student_id = savedStudent;
         courseInrollment.course = savedCourse;
         courseInrollment.enroll_date = faker.date.past();
-        courseInrollment.status = (1 %2 === 0) ? 'Active' : 'Inactive';
+        courseInrollment.status = i % 2 === 0 ? 'Active' : 'Inactive';
         await this.courseInrollmentRepository.save(courseInrollment);
 
         // AuditLog

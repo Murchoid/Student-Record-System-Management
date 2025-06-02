@@ -14,15 +14,15 @@ export class Report {
   @PrimaryGeneratedColumn()
   report_id: number;
 
-  @OneToOne(() => Student, (student) => student.report,{
+  @OneToOne(() => Student, (student) => student.report, {
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   student: Relation<Student>;
 
-  @OneToOne(() => Course, (course) => course.report,{
+  @OneToOne(() => Course, (course) => course.report, {
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   course: Relation<Course>;
 

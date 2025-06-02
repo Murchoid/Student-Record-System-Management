@@ -56,10 +56,11 @@ export class Student {
 
   @OneToMany(
     () => CourseInrollment,
-    (courseInrollment) => courseInrollment.student_id,{
-    cascade: true,
-    onDelete: 'CASCADE'
-  }
+    (courseInrollment) => courseInrollment.student_id,
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
   )
   courseInrolled: Relation<CourseInrollment[]>;
 

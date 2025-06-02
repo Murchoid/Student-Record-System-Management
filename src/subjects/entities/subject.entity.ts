@@ -20,9 +20,9 @@ export class Subject {
   @Column()
   subject_name: string;
 
-  @ManyToOne(() => Course, (course) => course.subject,{
+  @ManyToOne(() => Course, (course) => course.subject, {
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   course: Relation<Course>;
 

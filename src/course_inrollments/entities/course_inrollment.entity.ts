@@ -3,7 +3,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -26,7 +25,7 @@ export class CourseInrollment {
   @Column()
   enroll_date: Date;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   grade: string;
 
   @Column()

@@ -27,9 +27,9 @@ export class AdminProfile {
   @Column()
   profile_picture: string;
 
-  @OneToOne(() => Admin, (admin) => admin.profile,{
+  @OneToOne(() => Admin, (admin) => admin.profile, {
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   admin: Relation<Admin>;
 }

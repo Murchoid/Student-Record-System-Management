@@ -17,9 +17,9 @@ export class Feedback {
   @Column()
   user_id: number;
 
-  @ManyToOne(() => Subject, (subject) => subject.feedback,{
+  @ManyToOne(() => Subject, (subject) => subject.feedback, {
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   subject: Relation<Subject>;
 

@@ -5,7 +5,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Relation,
@@ -39,10 +38,11 @@ export class Course {
 
   @OneToMany(
     () => CourseInrollment,
-    (courseInrollment) => courseInrollment.course,{
-    cascade: true,
-    onDelete: 'CASCADE'
-  }
+    (courseInrollment) => courseInrollment.course,
+    {
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
   )
   courseInrolled: Relation<CourseInrollment[]>;
 
