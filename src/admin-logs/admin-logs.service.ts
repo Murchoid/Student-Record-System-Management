@@ -17,7 +17,7 @@ export class AdminLogsService {
   }
 
   findAll() {
-    return this.adminlogsRepository.find({ relations: ['Admin'] });
+    return this.adminlogsRepository.find();
   }
 
   findOne(id: number) {
