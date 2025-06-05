@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
 import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
 import { AdminLogsModule } from 'src/admin-logs/admin-logs.module';
+import * as Bcrypt from "bcrypt";
 
 @Injectable()
 export class AdminsService {
@@ -29,6 +30,8 @@ export class AdminsService {
       throw new NotFoundException('Admin profile not found');
     }
 
+    adminData.password= await Bcrypt.hash(adminData.password, 10);
+    console.log("service pass.." + adminData.password);
     const admin = this.adminRepository.create({
       ...adminData,
       profile,

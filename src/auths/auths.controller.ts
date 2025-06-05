@@ -35,14 +35,14 @@ export class AuthsController {
   }
 
   @UseGuards(AtGuard)
-  @Get('signout/:id')
+  @Post('signout/:id')
   signOut(@Param('id') id: string) {
     return this.authService.signOut(id);
   }
 
   @Public()
   @UseGuards(RtGuard)
-  @Get('refresh')
+  @Post('refresh')
   refreshTokens(
     @Query('id', ParseIntPipe) id: number,
     @Req() req: RequestWithUser,

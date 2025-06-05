@@ -10,6 +10,7 @@ import {
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
+import { Public } from 'src/auths/decorators/public.decorator';
 
 @Controller('students')
 export class StudentsController {
@@ -20,6 +21,7 @@ export class StudentsController {
     return this.studentsService.create(createStudentDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.studentsService.findAll();

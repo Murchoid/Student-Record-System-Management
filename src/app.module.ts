@@ -22,6 +22,8 @@ import { CacheableMemory } from 'cacheable';
 import { createKeyv, Keyv } from '@keyv/redis';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthsModule } from './auths/auths.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AtGuard } from './auths/guards';
 
 @Module({
   imports: [
@@ -61,6 +63,10 @@ import { AuthsModule } from './auths/auths.module';
   providers: [
     AppService,
     { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
+    {
+      provide: APP_GUARD,
+      useClass: AtGuard, 
+    }
   ],
 })
 export class AppModule {}
