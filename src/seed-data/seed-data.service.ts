@@ -13,6 +13,7 @@ import { PasswordChange } from 'src/password-changes/entities/password-change.en
 import { CourseInrollment } from 'src/course_inrollments/entities/course_inrollment.entity';
 import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
 import { DataSource, Repository } from 'typeorm';
+import * as Bycrypt from 'bcrypt';
 
 @Injectable()
 export class SeedDataService {
@@ -92,7 +93,7 @@ export class SeedDataService {
           firstName: admin.username,
           provider: 'gmail.com',
         });
-        admin.password = faker.string.sample({ min: 4, max: 8 });
+        admin.password = Bycrypt.hash(faker.string.sample({ min: 4, max: 8 }), 10);
         admin.last_login = faker.date.past();
         admin.is_superadmin = i % 2 === 0;
         admin.profile = savedProfile;

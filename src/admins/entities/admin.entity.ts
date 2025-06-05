@@ -42,4 +42,7 @@ export class Admin {
   @OneToMany(() => PasswordChange, (passwordChange) => passwordChange.admin_id)
   @JoinColumn()
   password_change: Relation<PasswordChange[]>;
+
+  @Column({type: 'text', nullable:true, default:null})
+  hashedRefreshToken: string | null;
 }
