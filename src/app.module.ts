@@ -17,9 +17,7 @@ import { StudentsModule } from './students/students.module';
 import { SeedDataModule } from './seed-data/seed-data.module';
 import { AuditLogsModule } from './audit_logs/audit_logs.module';
 import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
-import { CacheDisModule } from './cache-dis/cache-dis.module';
-import { CacheableMemory } from 'cacheable';
-import { createKeyv, Keyv } from '@keyv/redis';
+import { createKeyv } from '@keyv/redis';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthsModule } from './auths/auths.module';
 import { APP_GUARD } from '@nestjs/core';
@@ -56,7 +54,6 @@ import { AtGuard } from './auths/guards';
         ],
       }),
     }),
-    CacheDisModule,
     AuthsModule,
   ],
   controllers: [AppController],

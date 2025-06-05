@@ -10,11 +10,13 @@ import {
 import { AdminProfilesService } from './admin-profiles.service';
 import { CreateAdminProfileDto } from './dto/create-admin-profile.dto';
 import { UpdateAdminProfileDto } from './dto/update-admin-profile.dto';
+import { Public } from 'src/auths/decorators/public.decorator';
 
 @Controller('api/admin')
 export class AdminProfilesController {
   constructor(private readonly adminProfilesService: AdminProfilesService) {}
 
+  @Public()
   @Post('profile')
   create(@Body() createAdminProfileDto: CreateAdminProfileDto) {
     return this.adminProfilesService.create(createAdminProfileDto);
