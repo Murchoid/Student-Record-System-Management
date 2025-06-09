@@ -9,6 +9,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
+import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
 
 @Entity()
 export class Student {
@@ -67,4 +68,8 @@ export class Student {
   @OneToOne(() => Report)
   @JoinColumn()
   report: Relation<Report>;
+
+  @OneToOne(() => UserProfile)
+  @JoinColumn()
+  profile: Relation<UserProfile>;
 }

@@ -1,4 +1,5 @@
 import { Admin } from 'src/admins/entities/admin.entity';
+import { Student } from 'src/students/entities/student.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -7,8 +8,13 @@ import {
   Relation,
 } from 'typeorm';
 
+export enum eROLE{
+  STUDENT='student',
+  ADMIN='admin'
+}
+
 @Entity()
-export class AdminProfile {
+export class UserProfile {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -26,10 +32,4 @@ export class AdminProfile {
 
   @Column()
   profile_picture: string;
-
-  @OneToOne(() => Admin, (admin) => admin.profile, {
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  admin: Relation<Admin>;
 }

@@ -10,7 +10,7 @@ import { SessionsModule } from './sessions/sessions.module';
 import { AdminsModule } from './admins/admins.module';
 import { CourseInrollmentsModule } from './course_inrollments/course_inrollments.module';
 import { PasswordChangesModule } from './password-changes/password-changes.module';
-import { AdminProfilesModule } from './admin-profiles/admin-profiles.module';
+import { UserProfilesModule } from './user-profiles/user-profiles.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { StudentsModule } from './students/students.module';
@@ -25,6 +25,7 @@ import { AtGuard } from './auths/guards';
 
 @Module({
   imports: [
+    UserProfilesModule,
     AdminLogsModule,
     CoursesModule,
     SubjectsModule,
@@ -34,7 +35,6 @@ import { AtGuard } from './auths/guards';
     AdminsModule,
     CourseInrollmentsModule,
     PasswordChangesModule,
-    AdminProfilesModule,
     ConfigModule.forRoot({
       isGlobal: true,
       //envFilePath: '.env'

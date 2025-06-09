@@ -3,7 +3,7 @@ import { SeedDataService } from './seed-data.service';
 import { SeedDataController } from './seed-data.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from 'src/admins/entities/admin.entity';
-import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
+import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
 import { Student } from 'src/students/entities/student.entity';
 import { Course } from 'src/courses/entities/course.entity';
 import { Subject } from 'src/subjects/entities/subject.entity';
@@ -18,7 +18,7 @@ import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
   imports: [
     TypeOrmModule.forFeature([
       Admin,
-      AdminProfile,
+      UserProfile,
       Student,
       Course,
       Subject,

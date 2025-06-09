@@ -5,6 +5,7 @@ import {
   IsInt,
   IsNotEmpty,
   IsEmail,
+  IsEnum,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 

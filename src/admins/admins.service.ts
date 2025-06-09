@@ -4,7 +4,7 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 import { Admin } from './entities/admin.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
+import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
 import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
 import { AdminLogsModule } from 'src/admin-logs/admin-logs.module';
 import * as Bcrypt from "bcrypt";
@@ -14,8 +14,8 @@ export class AdminsService {
   constructor(
     @InjectRepository(Admin)
     private adminRepository: Repository<Admin>,
-    @InjectRepository(AdminProfile)
-    private adminProfileRepository: Repository<AdminProfile>,
+    @InjectRepository(UserProfile)
+    private adminProfileRepository: Repository<UserProfile>,
     @InjectRepository(AdminLog)
     private adminLogRepository: Repository<AdminLogsModule>,
   ) {}

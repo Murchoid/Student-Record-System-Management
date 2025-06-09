@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AdminProfile } from 'src/admin-profiles/entities/admin-profile.entity';
+import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
 import { Admin } from 'src/admins/entities/admin.entity';
 import { Student } from 'src/students/entities/student.entity';
 import { Course } from 'src/courses/entities/course.entity';
@@ -20,8 +20,8 @@ import * as Bcrypt from 'bcrypt';
 export class SeedDataService {
   private logger = new Logger(SeedDataService.name);
   constructor(
-    @InjectRepository(AdminProfile)
-    private readonly adminProfileRepository: Repository<AdminProfile>,
+    @InjectRepository(UserProfile)
+    private readonly userProfileRepository: Repository<UserProfile>,
     @InjectRepository(Admin)
     private readonly adminRepository: Repository<Admin>,
     @InjectRepository(Student)
@@ -77,15 +77,24 @@ export class SeedDataService {
 
       this.logger.log('Starting to insert data...');
       for (let i = 0; i < 10; i++) {
-        // AdminProfile
-        const adminProfile = new AdminProfile();
+        // Profiles
+        const adminProfile = new UserProfile();
         adminProfile.first_name = faker.person.firstName();
         adminProfile.last_name = faker.person.lastName();
         adminProfile.address = faker.location.streetAddress();
         adminProfile.phone_number = faker.phone.number();
         adminProfile.profile_picture = faker.system.filePath();
-        const savedProfile =
-          await this.adminProfileRepository.save(adminProfile);
+        const savedAdminProfile =
+          await this.userProfileRepository.save(adminProfile);
+
+        const studentProfile = new UserProfile();
+        studentProfile.first_name = faker.person.firstName();
+        studentProfile.last_name = faker.person.lastName();
+        studentProfile.address = faker.location.streetAddress();
+        studentProfile.phone_number = faker.phone.number();
+        studentProfile.profile_picture = faker.system.filePath();
+        const savedStudentProfile =
+          await this.userProfileRepository.save(studentProfile);
 
         // Admin
         const admin = new Admin();
@@ -99,7 +108,7 @@ export class SeedDataService {
         admin.password = await Bcrypt.hash(plainPass, 10);
         admin.last_login = faker.date.past();
         admin.is_superadmin = i % 2 === 0;
-        admin.profile = savedProfile;
+        admin.profile = savedAdminProfile;
         const savedAdmin = await this.adminRepository.save(admin);
 
         // Student
@@ -120,6 +129,7 @@ export class SeedDataService {
         student.profile_picture = faker.system.filePath();
         student.gender = faker.person.gender();
         student.enrollment_date = faker.date.past();
+        student.profile = savedStudentProfile;
         const savedStudent = await this.studentRepository.save(student);
 
         // Course
