@@ -13,21 +13,27 @@ import {
 
 @Entity()
 export class Admin {
+
   @PrimaryGeneratedColumn()
   admin_id: number;
+
 
   @Column()
   username: string;
 
+ 
   @Column()
   password: string;
 
+ 
   @Column()
   email: string;
 
+ 
   @Column()
   last_login: Date;
 
+ 
   @Column()
   is_superadmin: boolean;
 
@@ -43,6 +49,7 @@ export class Admin {
   @JoinColumn()
   password_change: Relation<PasswordChange[]>;
 
+ 
   @Column({type: 'text', nullable:true, default:null})
   hashedRefreshToken: string | null;
 }
