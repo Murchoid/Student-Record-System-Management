@@ -13,11 +13,11 @@ export class AtStrategy extends PassportStrategy(Strategy, 'jwt-at') {
   constructor(private readonly configServices: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configServices.getOrThrow<string>('JWT_ACCESS_TOKEN_SECRET'), 
+      secretOrKey: configServices.getOrThrow<string>('JWT_ACCESS_TOKEN_SECRET'),
     });
   }
 
   validate(payload: JWTPayload) {
-    return payload; 
+    return payload;
   }
 }

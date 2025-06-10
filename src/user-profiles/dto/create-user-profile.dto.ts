@@ -1,6 +1,6 @@
 import { IsString, IsEnum } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { eROLE } from "src/user-profiles/entities/user-profile.entity";
+import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
 
 export class CreateUserProfileDto {
   @ApiProperty()
@@ -25,7 +25,7 @@ export class CreateUserProfileDto {
 
   @ApiProperty()
   @IsEnum(eROLE, {
-    message: "The role must be an enum of : student, admin"
+    message: 'The role must be an enum of : student, admin',
   })
   role: eROLE;
 }

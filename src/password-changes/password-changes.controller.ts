@@ -12,7 +12,11 @@ import { CreatePasswordChangeDto } from './dto/create-password-change.dto';
 import { UpdatePasswordChangeDto } from './dto/update-password-change.dto';
 import { Roles } from 'src/auths/decorators/roles.decorator';
 import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Password changes')
 @Controller('password-changes')
 export class PasswordChangesController {
   constructor(

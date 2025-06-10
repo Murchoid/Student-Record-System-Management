@@ -1,4 +1,4 @@
-import { appendFile, open } from 'fs/promises';
+import { appendFile } from 'fs/promises';
 
 export class LogsService {
   async logToFile(logs: string, clientIp: string) {

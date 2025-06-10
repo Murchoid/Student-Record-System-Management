@@ -10,10 +10,13 @@ import {
 import { StudentsService } from './students.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { Public } from 'src/auths/decorators/public.decorator';
 import { Roles } from 'src/auths/decorators/roles.decorator';
 import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Students')
 @Controller('students')
 export class StudentsController {
   constructor(private readonly studentsService: StudentsService) {}

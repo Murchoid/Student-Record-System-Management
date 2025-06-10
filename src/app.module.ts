@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AdminLogsModule } from './admin-logs/admin-logs.module';
 import { CoursesModule } from './courses/courses.module';
 import { SubjectsModule } from './subjects/subjects.module';
@@ -22,6 +20,10 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthsModule } from './auths/auths.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AtGuard } from './auths/guards';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { RolesGuard } from './auths/guards/roles.guards';
+import { UserProfile } from './user-profiles/entities/user-profile.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -49,20 +51,38 @@ import { AtGuard } from './auths/guards';
       isGlobal: true,
       useFactory: (configService: ConfigService) => ({
         ttl: 60000,
-        stores: [
-          createKeyv(configService.getOrThrow<string>('REDIS_URL')),
-        ],
+        stores: [createKeyv(configService.getOrThrow<string>('REDIS_URL'))],
       }),
     }),
     AuthsModule,
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => [
+        {
+          ttl: configService.getOrThrow('T_TTL'),
+          limit: configService.getOrThrow('T_LIMIT'),
+          ignoreUserAgents: [/^curl\//],
+        },
+      ],
+    }),
+    TypeOrmModule.forFeature([UserProfile])
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
-    { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
+    { provide: APP_INTERCEPTOR,
+      useClass: CacheInterceptor
+    },
     {
       provide: APP_GUARD,
-      useClass: AtGuard, 
+      useClass: AtGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard
     }
   ],
 })

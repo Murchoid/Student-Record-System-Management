@@ -14,18 +14,17 @@ export class StudentsService {
     @InjectRepository(Student)
     private readonly studentRepository: Repository<StudentsModule>,
     @InjectRepository(UserProfile)
-    private readonly userProfileRepository: Repository<UserProfilesModule>
+    private readonly userProfileRepository: Repository<UserProfilesModule>,
   ) {}
 
   async create(createStudentDto: CreateStudentDto) {
-
-    const {studentProfileId} = createStudentDto;
+    const { studentProfileId } = createStudentDto;
 
     const studentProfile = await this.userProfileRepository.find({
-      where: {id:studentProfileId}
-    })
+      where: { id: studentProfileId },
+    });
 
-    if(!studentProfile){
+    if (!studentProfile) {
       throw new NotFoundException('Student profile not found!');
     }
 

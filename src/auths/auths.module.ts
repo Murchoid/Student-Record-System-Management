@@ -15,10 +15,10 @@ import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
     TypeOrmModule.forFeature([Admin, UserProfile]),
     JwtModule.register({
       global: true,
-    }), 
-    PassportModule, 
+    }),
+    PassportModule,
   ],
   providers: [AuthsService, AtStrategy, RfStrategy],
   controllers: [AuthsController],
 })
-export class AuthsModule { }
+export class AuthsModule {}

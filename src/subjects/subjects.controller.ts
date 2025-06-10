@@ -12,7 +12,11 @@ import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
 import { Roles } from 'src/auths/decorators/roles.decorator';
 import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Subjects')
 @Controller('subjects')
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}

@@ -12,7 +12,11 @@ import { CreateCourseInrollmentDto } from './dto/create-course_inrollment.dto';
 import { UpdateCourseInrollmentDto } from './dto/update-course_inrollment.dto';
 import { Roles } from 'src/auths/decorators/roles.decorator';
 import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Course Inrollment')
 @Controller('course-inrollments')
 export class CourseInrollmentsController {
   constructor(

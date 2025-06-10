@@ -10,7 +10,11 @@ import {
 import { AuditLogsService } from './audit_logs.service';
 import { CreateAuditLogDto } from './dto/create-audit_log.dto';
 import { UpdateAuditLogDto } from './dto/update-audit_log.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiBearerAuth()
+@ApiTags('Audit logs')
 @Controller('audit-logs')
 export class AuditLogsController {
   constructor(private readonly auditLogsService: AuditLogsService) {}

@@ -1,15 +1,9 @@
-import { Admin } from 'src/admins/entities/admin.entity';
-import { Student } from 'src/students/entities/student.entity';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-export enum eROLE{
-  STUDENT='student',
-  ADMIN='admin',
-  SADMIN='super admin'
+export enum eROLE {
+  STUDENT = 'student',
+  ADMIN = 'admin',
+  SADMIN = 'super admin',
 }
 
 @Entity()

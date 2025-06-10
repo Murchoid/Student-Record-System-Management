@@ -4,7 +4,6 @@ import { ExtractJwt, Strategy, StrategyOptionsWithRequest } from 'passport-jwt';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 
-
 interface JwtPayload {
   sub: number;
   email: string;
@@ -20,8 +19,8 @@ export class RfStrategy extends PassportStrategy(Strategy, 'jwt-rt') {
   constructor(private readonly configService: ConfigService) {
     const options: StrategyOptionsWithRequest = {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.getOrThrow('JWT_REFRESH_TOKEN_SECRET'), 
-      passReqToCallback: true, 
+      secretOrKey: configService.getOrThrow('JWT_REFRESH_TOKEN_SECRET'),
+      passReqToCallback: true,
     };
     super(options);
     console.log('RfStrategy constructor completed');
@@ -37,7 +36,7 @@ export class RfStrategy extends PassportStrategy(Strategy, 'jwt-rt') {
       throw new Error('Invalid refresh token format');
     }
     return {
-      ...payload, 
+      ...payload,
       refreshToken,
     };
   }

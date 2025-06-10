@@ -13,8 +13,10 @@ import { UpdateUserProfileDto } from './dto/update-user-profile.dto';
 import { Public } from 'src/auths/decorators/public.decorator';
 import { Roles } from 'src/auths/decorators/roles.decorator';
 import { eROLE } from './entities/user-profile.entity';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('api/user')
+@ApiTags('User Profile')
+@Controller('user')
 export class UserProfilesController {
   constructor(private readonly userProfilesService: UserProfilesService) {}
 

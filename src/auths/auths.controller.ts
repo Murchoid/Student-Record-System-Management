@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   Param,
   ParseIntPipe,
   Post,
@@ -15,6 +14,7 @@ import { Request } from 'express';
 import { AuthsService } from './auths.service';
 import { Public } from './decorators/public.decorator';
 import { AtGuard, RtGuard } from './guards';
+import { ApiTags } from '@nestjs/swagger';
 
 export interface RequestWithUser extends Request {
   user: {
@@ -24,9 +24,11 @@ export interface RequestWithUser extends Request {
   };
 }
 
+
+@ApiTags('Auths')
 @Controller('auth')
 export class AuthsController {
-  constructor(private readonly authService: AuthsService) { }
+  constructor(private readonly authService: AuthsService) {}
 
   @Public()
   @Post('signin')

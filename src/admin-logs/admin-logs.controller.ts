@@ -6,14 +6,18 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { AdminLogsService } from './admin-logs.service';
 import { CreateAdminLogDto } from './dto/create-admin-log.dto';
 import { UpdateAdminLogDto } from './dto/update-admin-log.dto';
 import { Roles } from 'src/auths/decorators/roles.decorator';
 import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-@Controller('api/admin')
+@ApiBearerAuth()
+@ApiTags('Admin Logs')
+@Controller('admin')
 export class AdminLogsController {
   constructor(private readonly adminLogsService: AdminLogsService) {}
 

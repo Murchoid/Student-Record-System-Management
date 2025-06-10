@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -13,8 +14,12 @@ import { UpdateAdminDto } from './dto/update-admin.dto';
 import { Public } from 'src/auths/decorators/public.decorator';
 import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
 import { Roles } from 'src/auths/decorators/roles.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller('api/admin')
+@ApiBearerAuth()
+@ApiTags('Admin')
+@Controller('admin')
 export class AdminsController {
   constructor(private readonly adminsService: AdminsService) {}
 

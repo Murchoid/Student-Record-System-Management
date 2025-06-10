@@ -27,7 +27,7 @@ export class Admin {
 
   @Column()
   last_login: Date;
- 
+
   @Column()
   is_superadmin: boolean;
 
@@ -43,6 +43,6 @@ export class Admin {
   @JoinColumn()
   password_change: Relation<PasswordChange[]>;
 
-  @Column({type: 'text', nullable:true, default:null})
+  @Column({ type: 'text', nullable: true, default: null })
   hashedRefreshToken: string | null;
 }

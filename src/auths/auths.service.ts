@@ -13,8 +13,7 @@ export class AuthsService {
     @InjectRepository(Admin) private adminRepository: Repository<Admin>,
     private jwtService: JwtService,
     private configService: ConfigService,
-  ) { }
-
+  ) {}
 
   private async getTokens(userId: number, email: string) {
     const [at, rt] = await Promise.all([
@@ -55,9 +54,7 @@ export class AuthsService {
     return await Bycrypt.hash(data, salt);
   }
 
-
   private async saveRefreshToken(userId: number, refreshToken: string) {
-
     const hashedRefreshToken = await this.hashData(refreshToken);
 
     await this.adminRepository.update(userId, {
@@ -65,12 +62,10 @@ export class AuthsService {
     });
   }
 
-
   async signIn(createAuthDto: CreateAuthDto) {
-
     const foundUser = await this.adminRepository.findOne({
       where: { email: createAuthDto.email },
-      select: ['admin_id', 'email', 'password'], 
+      select: ['admin_id', 'email', 'password'],
     });
     if (!foundUser) {
       throw new NotFoundException(
@@ -91,14 +86,12 @@ export class AuthsService {
       foundUser.email,
     );
 
-
     await this.saveRefreshToken(foundUser.admin_id, refreshToken);
 
     return { accessToken, refreshToken };
   }
 
   async signOut(userId: string) {
-
     const res = await this.adminRepository.update(userId, {
       hashedRefreshToken: null,
     });
@@ -109,9 +102,7 @@ export class AuthsService {
     return { message: `User with id : ${userId} signed out successfully` };
   }
 
-
   async refreshTokens(id: number, refreshToken: string) {
-
     const foundUser = await this.adminRepository.findOne({
       where: { admin_id: id },
     });
@@ -123,7 +114,6 @@ export class AuthsService {
     if (!foundUser.hashedRefreshToken) {
       throw new NotFoundException('No refresh token found');
     }
-
 
     const refreshTokenMatches = await Bycrypt.compare(
       refreshToken,

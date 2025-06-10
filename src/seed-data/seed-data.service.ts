@@ -15,7 +15,6 @@ import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
 import { DataSource, Repository } from 'typeorm';
 import * as Bcrypt from 'bcrypt';
 
-
 @Injectable()
 export class SeedDataService {
   private logger = new Logger(SeedDataService.name);
