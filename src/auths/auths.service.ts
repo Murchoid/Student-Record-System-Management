@@ -18,7 +18,7 @@ export class AuthsService {
     private adminRepository: Repository<Admin>,
     @InjectRepository(AuditLog)
     private auditRepository: Repository<AuditLog>,
-    @InjectRepository<AdminLog>,
+    @InjectRepository(AdminLog)
     private adminLogRepository: Repository<AdminLog>,
     private jwtService: JwtService,
     private configService: ConfigService,
