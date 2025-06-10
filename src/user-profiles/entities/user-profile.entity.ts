@@ -4,13 +4,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
-  Relation,
 } from 'typeorm';
 
 export enum eROLE{
   STUDENT='student',
-  ADMIN='admin'
+  ADMIN='admin',
+  SADMIN='super admin'
 }
 
 @Entity()
@@ -32,4 +31,7 @@ export class UserProfile {
 
   @Column()
   profile_picture: string;
+
+  @Column()
+  role: eROLE;
 }

@@ -31,7 +31,6 @@ export class AdminsService {
     }
 
     adminData.password= await Bcrypt.hash(adminData.password, 10);
-    console.log("service pass.." + adminData.password);
     const admin = this.adminRepository.create({
       ...adminData,
       profile,

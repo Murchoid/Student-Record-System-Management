@@ -10,6 +10,8 @@ import {
 import { AdminLogsService } from './admin-logs.service';
 import { CreateAdminLogDto } from './dto/create-admin-log.dto';
 import { UpdateAdminLogDto } from './dto/update-admin-log.dto';
+import { Roles } from 'src/auths/decorators/roles.decorator';
+import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
 
 @Controller('api/admin')
 export class AdminLogsController {
@@ -20,11 +22,13 @@ export class AdminLogsController {
     return this.adminLogsService.create(createAdminLogDto);
   }
 
+  @Roles(eROLE.SADMIN)
   @Get('logs')
   findAll() {
     return this.adminLogsService.findAll();
   }
 
+  @Roles(eROLE.SADMIN)
   @Get('logs/:id')
   findOne(@Param('id') id: string) {
     return this.adminLogsService.findOne(+id);
@@ -38,6 +42,7 @@ export class AdminLogsController {
     return this.adminLogsService.update(+id, updateAdminLogDto);
   }
 
+  @Roles(eROLE.SADMIN)
   @Delete('logs/:id')
   remove(@Param('id') id: string) {
     return this.adminLogsService.remove(+id);
