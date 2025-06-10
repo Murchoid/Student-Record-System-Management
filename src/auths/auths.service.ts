@@ -6,11 +6,17 @@ import { Repository } from 'typeorm';
 import * as Bycrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { createAudit } from 'src/audit_logs/helper/createAudit.helper';
+import { Request } from 'express';
+import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
 
 @Injectable()
 export class AuthsService {
   constructor(
-    @InjectRepository(Admin) private adminRepository: Repository<Admin>,
+    @InjectRepository(Admin)
+    private adminRepository: Repository<Admin>,
+    @InjectRepository(AuditLog)
+    private auditRepository: Repository<AuditLog>,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
@@ -62,7 +68,7 @@ export class AuthsService {
     });
   }
 
-  async signIn(createAuthDto: CreateAuthDto) {
+  async signIn(createAuthDto: CreateAuthDto, request: Request) {
     const foundUser = await this.adminRepository.findOne({
       where: { email: createAuthDto.email },
       select: ['admin_id', 'email', 'password'],
@@ -87,6 +93,9 @@ export class AuthsService {
     );
 
     await this.saveRefreshToken(foundUser.admin_id, refreshToken);
+
+    const audit = await createAudit<Admin>(request, foundUser, "Admin signed in", "Admin logs table affected");
+    this.auditRepository.save(audit);
 
     return { accessToken, refreshToken };
   }

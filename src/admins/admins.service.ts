@@ -3,11 +3,14 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { Admin } from './entities/admin.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
-import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
-import { AdminLogsModule } from 'src/admin-logs/admin-logs.module';
 import * as Bcrypt from 'bcrypt';
+import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
+import { AuditLogsModule } from 'src/audit_logs/audit_logs.module';
+import { Request } from 'express';
+import { createAudit } from 'src/audit_logs/helper/createAudit.helper';
+
 
 @Injectable()
 export class AdminsService {
@@ -16,11 +19,11 @@ export class AdminsService {
     private adminRepository: Repository<Admin>,
     @InjectRepository(UserProfile)
     private adminProfileRepository: Repository<UserProfile>,
-    @InjectRepository(AdminLog)
-    private adminLogRepository: Repository<AdminLogsModule>,
+    @InjectRepository(AuditLog)
+    private auditLogRepository: Repository<AuditLogsModule>,
   ) {}
 
-  async create(createAdminDto: CreateAdminDto): Promise<Admin> {
+  async create(createAdminDto: CreateAdminDto, request: Request): Promise<Admin> {
     const { adminProfileId, ...adminData } = createAdminDto;
 
     const profile = await this.adminProfileRepository.findOneBy({
@@ -34,9 +37,14 @@ export class AdminsService {
     const admin = this.adminRepository.create({
       ...adminData,
       profile,
-    });
+    }); 
 
-    return this.adminRepository.save(admin);
+    const createdAdmin = await this.adminRepository.save(admin);
+
+    const audit = await createAudit<Admin>(request, createdAdmin, "Admin created");
+    this.auditLogRepository.save(audit);
+
+    return createdAdmin;
   }
 
   findAll(name?: string) {
@@ -54,11 +62,19 @@ export class AdminsService {
     return this.adminRepository.findOneBy({ admin_id: id });
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return this.adminRepository.update(id, updateAdminDto);
+  async update(id: number, updateAdminDto: UpdateAdminDto, request: Request) {
+    const updatedAdmin = await this.adminRepository.update(id, updateAdminDto);
+    const audit = await createAudit<UpdateResult>(request, updatedAdmin, "Updated user", "Admin table affected");
+    this.auditLogRepository.save(audit);
+
+    return updatedAdmin;
   }
 
-  remove(id: number) {
-    return this.adminRepository.delete(id);
+  async remove(id: number, request: Request) {
+    const deletedUser = await this.adminRepository.delete(id);
+    const audit = await createAudit<number>(request, id, "Admin removed", "Admin table affected");
+    this.auditLogRepository.save(audit);
+
+    return deletedUser;
   }
 }

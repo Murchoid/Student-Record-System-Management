@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { AdminsService } from './admins.service';
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -16,6 +17,7 @@ import { eROLE } from 'src/user-profiles/entities/user-profile.entity';
 import { Roles } from 'src/auths/decorators/roles.decorator';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
 @ApiBearerAuth()
 @ApiTags('Admin')
@@ -25,8 +27,8 @@ export class AdminsController {
 
   @Public()
   @Post('/register')
-  create(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminsService.create(createAdminDto);
+  create(@Body() createAdminDto: CreateAdminDto, @Req() request: Request) {
+    return this.adminsService.create(createAdminDto, request);
   }
 
   @Roles(eROLE.ADMIN)
@@ -43,13 +45,13 @@ export class AdminsController {
 
   @Roles(eROLE.ADMIN)
   @Patch('auths/:id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminsService.update(+id, updateAdminDto);
+  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto, @Req() request: Request) {
+    return this.adminsService.update(+id, updateAdminDto, request);
   }
 
   @Roles(eROLE.ADMIN)
   @Delete('auths/:id')
-  remove(@Param('id') id: string) {
-    return this.adminsService.remove(+id);
+  remove(@Param('id') id: string, @Req() request: Request) {
+    return this.adminsService.remove(+id, request);
   }
 }

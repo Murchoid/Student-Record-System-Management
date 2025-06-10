@@ -32,8 +32,8 @@ export class AuthsController {
 
   @Public()
   @Post('signin')
-  signInLocal(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.signIn(createAuthDto);
+  signInLocal(@Body() createAuthDto: CreateAuthDto, @Req() request: Request) {
+    return this.authService.signIn(createAuthDto, request);
   }
 
   @UseGuards(AtGuard)

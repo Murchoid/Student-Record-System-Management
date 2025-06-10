@@ -8,11 +8,12 @@ import { PassportModule } from '@nestjs/passport';
 import { AtStrategy, RfStrategy } from './strategies';
 import { Admin } from 'src/admins/entities/admin.entity';
 import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
+import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
 
 @Module({
   imports: [
     DatabaseModule,
-    TypeOrmModule.forFeature([Admin, UserProfile]),
+    TypeOrmModule.forFeature([Admin, UserProfile, AuditLog]),
     JwtModule.register({
       global: true,
     }),
