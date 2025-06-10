@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { createAudit } from 'src/audit_logs/helper/createAudit.helper';
 import { Request } from 'express';
 import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
+import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
 
 @Injectable()
 export class AuthsService {
@@ -17,6 +18,8 @@ export class AuthsService {
     private adminRepository: Repository<Admin>,
     @InjectRepository(AuditLog)
     private auditRepository: Repository<AuditLog>,
+    @InjectRepository<AdminLog>,
+    private adminLogRepository: Repository<AdminLog>,
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
@@ -96,6 +99,9 @@ export class AuthsService {
 
     const audit = await createAudit<Admin>(request, foundUser, "Admin signed in", "Admin logs table affected");
     this.auditRepository.save(audit);
+
+
+    foundUser.admin_logs = [await this.adminLogRepository.save({login_time: new Date()})];
 
     return { accessToken, refreshToken };
   }

@@ -41,7 +41,7 @@ export class AdminsService {
 
     const createdAdmin = await this.adminRepository.save(admin);
 
-    const audit = await createAudit<Admin>(request, createdAdmin, "Admin created");
+    const audit = await createAudit<Admin>(request, createdAdmin, "Admin created", "Admin table affected");
     this.auditLogRepository.save(audit);
 
     return createdAdmin;
