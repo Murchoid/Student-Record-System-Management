@@ -25,7 +25,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Student Record Management System')
     .setDescription(
-      "🎓 Welcome to the Student Record Management System API! 🚀\n\n" +
+      '🎓 Welcome to the Student Record Management System API! 🚀\n\n' +
         'Easily manage students, admins, courses, subjects, reports, feedback, sessions, enrollments, and user profiles all in one place. ' +
         'This API supports secure authentication, role-based access, and full CRUD operations for all major entities. ' +
         'Empower your institution to efficiently track academic records, user activities, and more! 📚✨',

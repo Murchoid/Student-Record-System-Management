@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Otp } from './entities/otp.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([Otp])],
+  imports: [TypeOrmModule.forFeature([Otp])],
   controllers: [OtpController],
   providers: [OtpService],
 })

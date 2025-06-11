@@ -24,7 +24,6 @@ export interface RequestWithUser extends Request {
   };
 }
 
-
 @ApiTags('Auths')
 @Controller('auth')
 export class AuthsController {

@@ -70,24 +70,22 @@ import { NodemailerModule } from './nodemailer/nodemailer.module';
     }),
     TypeOrmModule.forFeature([UserProfile]),
     OtpModule,
-    NodemailerModule
+    NodemailerModule,
   ],
   providers: [
-    { provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor
-    },
+    { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
     {
       provide: APP_GUARD,
       useClass: AtGuard,
     },
     {
       provide: APP_GUARD,
-      useClass: RolesGuard
+      useClass: RolesGuard,
     },
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard
-    }
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}

@@ -6,7 +6,7 @@ import { ConfigService } from '@nestjs/config';
 export class NodemailerService {
   constructor(private readonly configService: ConfigService) {}
 
-  async sendEmail(/*otp: string,*/ email: string) {
+  async sendOtpEmail(otp: string, email: string) {
     const emailUser = this.configService.getOrThrow<string>('EMAIL_USER');
     const emailPass = this.configService.getOrThrow<string>('EMAIL_PASS');
 
@@ -18,11 +18,40 @@ export class NodemailerService {
       },
     });
 
-    /*const otpMessage = `
+    const otpMessage = `
       <h3>Password Change Request</h3>
-      <p>Your OTP code is: <b>${otp}</b></p>
+      <p>Your temporary password is: <b>${otp}</b></p>
       <p>This code will expire in 10 minutes.</p>
-    `;*/
+    `;
+
+    const mailOptions = {
+      from: `"Student Record System" <srms@gmail.com>`,
+      to: email,
+      subject: 'Password change!',
+      html: otpMessage,
+    };
+
+    try {
+      const response = await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully:', response.messageId);
+      return response;
+    } catch (error) {
+      console.error('Email sending failed:', error);
+      throw error;
+    }
+  }
+
+  async sendWelcomeEmail(email) {
+    const emailUser = this.configService.getOrThrow<string>('EMAIL_USER');
+    const emailPass = this.configService.getOrThrow<string>('EMAIL_PASS');
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: emailUser,
+        pass: emailPass,
+      },
+    });
 
     const welcomeMessage = `
       <div style="font-family: Arial, sans-serif; background: #f6fff8; padding: 24px; border-radius: 8px; border: 1px solid #d4f5e9;">
@@ -46,7 +75,7 @@ export class NodemailerService {
     `;
 
     const mailOptions = {
-      from: `"Student Record System" <${emailUser}>`,
+      from: `"Student Record System" <srms@gmail.com>`,
       to: email,
       subject: 'Welcome to Student Record System!',
       html: welcomeMessage,

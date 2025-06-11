@@ -23,7 +23,7 @@ export class AuthsService {
     private adminLogRepository: Repository<AdminLog>,
     private jwtService: JwtService,
     private configService: ConfigService,
-    private nodemailerController: NodemailerController
+    private nodemailerController: NodemailerController,
   ) {}
 
   private async getTokens(userId: number, email: string) {
@@ -99,12 +99,19 @@ export class AuthsService {
 
     await this.saveRefreshToken(foundUser.admin_id, refreshToken);
 
-    const audit = await createAudit<Admin>(request, foundUser, "Admin signed in", "Admin logs table affected");
+    const audit = await createAudit<Admin>(
+      request,
+      foundUser,
+      'Admin signed in',
+      'Admin logs table affected',
+    );
     this.auditRepository.save(audit);
 
-    this.nodemailerController.sendEmail(foundUser.email);
+    this.nodemailerController.sendWelcomeEmail(foundUser.email);
 
-    foundUser.admin_logs = [await this.adminLogRepository.save({login_time: new Date()})];
+    foundUser.admin_logs = [
+      await this.adminLogRepository.save({ login_time: new Date() }),
+    ];
 
     return { accessToken, refreshToken };
   }

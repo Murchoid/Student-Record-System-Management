@@ -22,7 +22,13 @@ import { NodemailerService } from 'src/nodemailer/nodemailer.service';
     }),
     PassportModule,
   ],
-  providers: [AuthsService, AtStrategy, RfStrategy, NodemailerController,NodemailerService],
+  providers: [
+    AuthsService,
+    AtStrategy,
+    RfStrategy,
+    NodemailerController,
+    NodemailerService,
+  ],
   controllers: [AuthsController],
 })
 export class AuthsModule {}

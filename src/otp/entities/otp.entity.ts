@@ -1,16 +1,16 @@
-import { Column, PrimaryGeneratedColumn, Entity } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Entity } from 'typeorm';
 
 @Entity()
 export class Otp {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    otp: string;
+  @Column()
+  otp: string;
 
-    @Column({nullable: false})
-    user_id: number;
+  @Column({ nullable: false })
+  user_id: number;
 
-    @Column()
-    timestamp: Date;
+  @Column()
+  timestamp: Date;
 }

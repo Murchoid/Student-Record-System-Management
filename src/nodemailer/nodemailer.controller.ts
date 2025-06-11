@@ -5,8 +5,11 @@ import { NodemailerService } from './nodemailer.service';
 export class NodemailerController {
   constructor(private readonly nodemailerService: NodemailerService) {}
 
-  sendEmail(/*otp: string,*/ email: string){
-    this.nodemailerService.sendEmail(/*otp,*/ email);
+  sendOtpEmail(otp: string, email: string) {
+    this.nodemailerService.sendOtpEmail(otp, email);
   }
-  
+
+  sendWelcomeEmail(email) {
+    this.nodemailerService.sendWelcomeEmail(email);
+  }
 }

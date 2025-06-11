@@ -11,7 +11,6 @@ import { AuditLogsModule } from 'src/audit_logs/audit_logs.module';
 import { Request } from 'express';
 import { createAudit } from 'src/audit_logs/helper/createAudit.helper';
 
-
 @Injectable()
 export class AdminsService {
   constructor(
@@ -23,7 +22,10 @@ export class AdminsService {
     private auditLogRepository: Repository<AuditLogsModule>,
   ) {}
 
-  async create(createAdminDto: CreateAdminDto, request: Request): Promise<Admin> {
+  async create(
+    createAdminDto: CreateAdminDto,
+    request: Request,
+  ): Promise<Admin> {
     const { adminProfileId, ...adminData } = createAdminDto;
 
     const profile = await this.adminProfileRepository.findOneBy({
@@ -37,11 +39,16 @@ export class AdminsService {
     const admin = this.adminRepository.create({
       ...adminData,
       profile,
-    }); 
+    });
 
     const createdAdmin = await this.adminRepository.save(admin);
 
-    const audit = await createAudit<Admin>(request, createdAdmin, "Admin created", "Admin table affected");
+    const audit = await createAudit<Admin>(
+      request,
+      createdAdmin,
+      'Admin created',
+      'Admin table affected',
+    );
     this.auditLogRepository.save(audit);
 
     return createdAdmin;
@@ -64,7 +71,12 @@ export class AdminsService {
 
   async update(id: number, updateAdminDto: UpdateAdminDto, request: Request) {
     const updatedAdmin = await this.adminRepository.update(id, updateAdminDto);
-    const audit = await createAudit<UpdateResult>(request, updatedAdmin, "Updated user", "Admin table affected");
+    const audit = await createAudit<UpdateResult>(
+      request,
+      updatedAdmin,
+      'Updated user',
+      'Admin table affected',
+    );
     this.auditLogRepository.save(audit);
 
     return updatedAdmin;
@@ -72,7 +84,12 @@ export class AdminsService {
 
   async remove(id: number, request: Request) {
     const deletedUser = await this.adminRepository.delete(id);
-    const audit = await createAudit<number>(request, id, "Admin removed", "Admin table affected");
+    const audit = await createAudit<number>(
+      request,
+      id,
+      'Admin removed',
+      'Admin table affected',
+    );
     this.auditLogRepository.save(audit);
 
     return deletedUser;

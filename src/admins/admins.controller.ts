@@ -45,7 +45,11 @@ export class AdminsController {
 
   @Roles(eROLE.ADMIN)
   @Patch('auths/:id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto, @Req() request: Request) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAdminDto: UpdateAdminDto,
+    @Req() request: Request,
+  ) {
     return this.adminsService.update(+id, updateAdminDto, request);
   }
 

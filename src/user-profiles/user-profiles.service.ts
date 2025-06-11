@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 export class UserProfilesService {
   constructor(
     @InjectRepository(UserProfile)
-    private userProfileRepository: Repository<UserProfile>
+    private userProfileRepository: Repository<UserProfile>,
   ) {}
 
   create(createUserProfileDto: CreateUserProfileDto) {
