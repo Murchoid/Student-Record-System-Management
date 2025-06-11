@@ -10,6 +10,7 @@ import { createAudit } from 'src/audit_logs/helper/createAudit.helper';
 import { Request } from 'express';
 import { AuditLog } from 'src/audit_logs/entities/audit_log.entity';
 import { AdminLog } from 'src/admin-logs/entities/admin-log.entity';
+import { NodemailerController } from 'src/nodemailer/nodemailer.controller';
 
 @Injectable()
 export class AuthsService {
@@ -22,6 +23,7 @@ export class AuthsService {
     private adminLogRepository: Repository<AdminLog>,
     private jwtService: JwtService,
     private configService: ConfigService,
+    private nodemailerController: NodemailerController
   ) {}
 
   private async getTokens(userId: number, email: string) {
@@ -100,6 +102,7 @@ export class AuthsService {
     const audit = await createAudit<Admin>(request, foundUser, "Admin signed in", "Admin logs table affected");
     this.auditRepository.save(audit);
 
+    this.nodemailerController.sendEmail(foundUser.email);
 
     foundUser.admin_logs = [await this.adminLogRepository.save({login_time: new Date()})];
 

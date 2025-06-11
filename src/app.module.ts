@@ -24,6 +24,8 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { RolesGuard } from './auths/guards/roles.guards';
 import { UserProfile } from './user-profiles/entities/user-profile.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { OtpModule } from './otp/otp.module';
+import { NodemailerModule } from './nodemailer/nodemailer.module';
 
 @Module({
   imports: [
@@ -66,7 +68,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         },
       ],
     }),
-    TypeOrmModule.forFeature([UserProfile])
+    TypeOrmModule.forFeature([UserProfile]),
+    OtpModule,
+    NodemailerModule
   ],
   providers: [
     { provide: APP_INTERCEPTOR,

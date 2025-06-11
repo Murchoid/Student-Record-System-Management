@@ -26,13 +26,13 @@ export class AdminLogsController {
     return this.adminLogsService.create(createAdminLogDto);
   }
 
-  @Roles(eROLE.SADMIN)
+  @Roles(eROLE.ADMIN)
   @Get('logs')
   findAll() {
     return this.adminLogsService.findAll();
   }
 
-  @Roles(eROLE.SADMIN)
+  @Roles(eROLE.ADMIN)
   @Get('logs/:id')
   findOne(@Param('id') id: string) {
     return this.adminLogsService.findOne(+id);

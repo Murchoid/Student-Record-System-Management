@@ -15,7 +15,7 @@ export class PasswordChangesService {
     @InjectRepository(PasswordChange)
     private readonly passwordChangeRepository: Repository<PasswordChangesModule>,
     @InjectRepository(AuditLog)
-    private readonly auditRepository: Repository<AuditLog>
+    private readonly auditRepository: Repository<AuditLog>,
   ) {}
 
   async create(createPasswordChangeDto: CreatePasswordChangeDto, request: Request) {
@@ -31,15 +31,17 @@ export class PasswordChangesService {
 
   findOne(id: number) {
     return this.passwordChangeRepository.findOneBy({
-      where: { id },
+      where: {id},
     });
   }
 
   update(id: number, updatePasswordChangeDto: UpdatePasswordChangeDto) {
+
     return this.passwordChangeRepository.update(id, updatePasswordChangeDto);
   }
 
   remove(id: number) {
     return this.passwordChangeRepository.delete(id);
   }
+
 }
