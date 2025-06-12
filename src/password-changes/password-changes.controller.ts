@@ -13,7 +13,7 @@ interface IUserRequest extends Request {
 }
 
 @ApiBearerAuth()
-@ApiTags('Password changes')
+@ApiTags('Password Changes')
 @Controller('password-changes')
 export class PasswordChangesController {
   constructor(
@@ -27,10 +27,10 @@ export class PasswordChangesController {
 
   @Roles(eROLE.ADMIN, eROLE.STUDENT)
   @Post()
-  create(
+  async create(
     @Body() createPasswordChangeDto: CreatePasswordChangeDto,
-    @Req() request: Request,
+    @Req() request: IUserRequest
   ) {
-    return this.passwordChangesService.create(createPasswordChangeDto, request);
+    return await this.passwordChangesService.create(createPasswordChangeDto, request);
   }
 }

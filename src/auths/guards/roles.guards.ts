@@ -39,15 +39,7 @@ export class RolesGuard implements CanActivate {
       return false;
     }
 
-    const requestUser = await this.userProfileRepository.findOne({
-      where: { id: user.sub },
-      select: ['id', 'role'],
-    });
-
-    if (!requestUser) {
-      return false;
-    }
-
-    return requestedRoles.some((role) => requestUser.role === role);
+  
+    return requestedRoles.some((role) => user.role === role);
   }
 }

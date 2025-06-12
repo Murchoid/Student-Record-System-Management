@@ -16,7 +16,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiTags('Feedback')
+@ApiTags('Feedbacks')
 @Controller('feedbacks')
 export class FeedbacksController {
   constructor(private readonly feedbacksService: FeedbacksService) {}

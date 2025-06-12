@@ -26,11 +26,12 @@ export class AuthsService {
     private nodemailerController: NodemailerController,
   ) {}
 
-  private async getTokens(userId: number, email: string) {
+  private async getTokens(userId: number, profileRole: string, email: string) {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(
         {
           sub: userId,
+          role: profileRole,
           email: email,
         },
         {
@@ -45,6 +46,7 @@ export class AuthsService {
       this.jwtService.signAsync(
         {
           sub: userId,
+          role: profileRole,
           email: email,
         },
         {
@@ -76,6 +78,7 @@ export class AuthsService {
   async signIn(createAuthDto: CreateAuthDto, request: Request) {
     const foundUser = await this.adminRepository.findOne({
       where: { email: createAuthDto.email },
+      relations: ['profile'],
       select: ['admin_id', 'email', 'password'],
     });
     if (!foundUser) {
@@ -94,6 +97,7 @@ export class AuthsService {
 
     const { accessToken, refreshToken } = await this.getTokens(
       foundUser.admin_id,
+      foundUser.profile.role,
       foundUser.email,
     );
 
@@ -151,6 +155,7 @@ export class AuthsService {
 
     const { accessToken, refreshToken: newRefreshToken } = await this.getTokens(
       foundUser.admin_id,
+      foundUser.profile.role,
       foundUser.email,
     );
 

@@ -12,6 +12,7 @@ import { OtpController } from 'src/otp/otp.controller';
 import { NodemailerController } from 'src/nodemailer/nodemailer.controller';
 import { JWTPayload } from 'src/auths/strategies';
 import { Injectable } from '@nestjs/common';
+import { AdminsController } from 'src/admins/admins.controller';
 
 interface IUserRequest extends Request {
   user?: JWTPayload;
@@ -27,6 +28,7 @@ export class PasswordChangesService {
     private otpValidator: OtpValidator,
     private otpController: OtpController,
     private nodemailerController: NodemailerController,
+    private adminController: AdminsController
   ) {}
 
   sendOtp(request: IUserRequest) {
@@ -37,19 +39,26 @@ export class PasswordChangesService {
     this.otpController.create(thisOtp);
     const { email } = request.user!;
     this.nodemailerController.sendOtpEmail(thisOtp.otp, email);
-    return 'An email was sent to you with a temporary password use it to reset yours';
+    return { message: 'An email was sent to you with a temporary password use it to reset yours'};
   }
 
   async create(
     createPasswordChangeDto: CreatePasswordChangeDto,
-    request: Request,
+    request: IUserRequest
   ) {
     const confirmOtp = await this.otpController.findOne(
       createPasswordChangeDto.old_password,
     );
+    if (confirmOtp){
+       await this.createAuditAndSavePassword(request, createPasswordChangeDto);
+       await this.otpController.remove(String(confirmOtp.id));
+       return { message: "Password changed successfully!" }; 
+    }
+    return { message: "OTP not valid or expired" }; 
+  }
 
-    if (confirmOtp) {
-      const pass = await this.passwordChangeRepository.save(
+  private async createAuditAndSavePassword(request: Request, createPasswordChangeDto: CreatePasswordChangeDto){
+    const pass = await this.passwordChangeRepository.save(
         createPasswordChangeDto,
       );
       const audit = await createAudit(
@@ -59,7 +68,6 @@ export class PasswordChangesService {
         'Password table changed',
       );
       this.auditRepository.save(audit);
-      return pass;
-    }
+      return "password changed succesfully!";
   }
 }

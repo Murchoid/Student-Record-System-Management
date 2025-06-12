@@ -53,7 +53,7 @@ import { NodemailerModule } from './nodemailer/nodemailer.module';
       isGlobal: true,
       useFactory: (configService: ConfigService) => ({
         ttl: 60000,
-        stores: [createKeyv(configService.getOrThrow<string>('REDIS_URL'))],
+        stores: [createKeyv(configService.getOrThrow<string>('REDIS_URL_ONLINE'))],
       }),
     }),
     AuthsModule,

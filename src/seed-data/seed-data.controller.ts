@@ -1,7 +1,9 @@
 import { Controller, HttpCode, HttpStatus, Logger, Post } from '@nestjs/common';
 import { SeedDataService } from './seed-data.service';
 import { Public } from 'src/auths/decorators/public.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Seed Data')
 @Controller('api/seed-data')
 export class SeedDataController {
   private logger = new Logger(SeedDataController.name);

@@ -14,7 +14,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@ApiTags('Audit logs')
+@ApiTags('Audit Logs')
 @Controller('audit-logs')
 export class AuditLogsController {
   constructor(private readonly auditLogsService: AuditLogsService) {}

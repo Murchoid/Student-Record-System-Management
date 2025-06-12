@@ -15,7 +15,7 @@ import { Roles } from 'src/auths/decorators/roles.decorator';
 import { eROLE } from './entities/user-profile.entity';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('User Profile')
+@ApiTags('User Profiles')
 @Controller('user')
 export class UserProfilesController {
   constructor(private readonly userProfilesService: UserProfilesService) {}

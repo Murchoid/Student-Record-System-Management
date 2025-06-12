@@ -10,9 +10,13 @@ import { OtpController } from 'src/otp/otp.controller';
 import { NodemailerService } from 'src/nodemailer/nodemailer.service';
 import { OtpService } from 'src/otp/otp.service';
 import { Otp } from 'src/otp/entities/otp.entity';
+import { AdminsController } from 'src/admins/admins.controller';
+import { AdminsService } from 'src/admins/admins.service';
+import { Admin } from 'src/admins/entities/admin.entity';
+import { UserProfile } from 'src/user-profiles/entities/user-profile.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PasswordChange, AuditLog, Otp])],
+  imports: [TypeOrmModule.forFeature([PasswordChange, AuditLog, Otp, Admin, UserProfile])],
   controllers: [PasswordChangesController],
   providers: [
     PasswordChangesService,
@@ -21,6 +25,8 @@ import { Otp } from 'src/otp/entities/otp.entity';
     NodemailerController,
     OtpService,
     NodemailerService,
+    AdminsController,
+    AdminsService
   ],
 })
 export class PasswordChangesModule {}

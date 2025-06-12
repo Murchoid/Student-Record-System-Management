@@ -59,10 +59,13 @@ export class AdminsService {
       return this.adminRepository.findOne({
         where: { username: name },
         relations: ['admin_profile'],
+        select: ['username', 'email', 'is_superadmin']
       });
     }
 
-    return this.adminRepository.find();
+    return this.adminRepository.find({
+      select: ['username', 'email', 'is_superadmin']
+    });
   }
 
   findOne(id: number) {

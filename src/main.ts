@@ -32,6 +32,20 @@ async function bootstrap() {
     )
     .setVersion('1.0')
     .addBearerAuth()
+    .addTag('Admin', 'The admin\'s endpoints ')
+    .addTag('Admin Logs', 'Here you can fetch all logs performed by the admins')
+    .addTag('Audit Logs', 'The endpoint to all the logs performed by all users in the system')
+    .addTag('Auths', 'These are endpoints for authentication (signin, signout)')
+    .addTag('Courses', 'Here you can access all routes for viewign and editing courses')
+    .addTag('Feedbacks', 'All endpoints for performing operations on feedbacks')
+    .addTag('Password Changes', 'These endpoints allows a user to change their password')
+    .addTag('Reports', 'Here we have endpoints to edit and view reports')
+    .addTag('Seed Data', 'In this endpoint, we can run a script to put test data in the tables')
+    .addTag('Students', 'Here we have the endpoints to perform CRUD ops on students table')
+    .addTag('Subjects', 'In the routes, we can edit and view subejcts')
+    .addTag('User Profiles', 'Here we can create edit and remove user profiles')
+    .addTag('Sessions', 'In these endpoints we can edit sessions in the system')
+    .addTag('Course Inrollment', 'All endpoints to perform CRUD on course inrollment tables')
     .build();
 
   const documentFactory = () => SwaggerModule.createDocument(app, config);
@@ -50,7 +64,7 @@ async function bootstrap() {
     customSiteTitle: 'Students Record Management System',
   });
 
-  await app.listen(process.env.PORT ?? 3000, () => {
+  await app.listen(process.env.PORT ?? 5000, () => {
     console.log('App listening in port 3000');
   });
 }
