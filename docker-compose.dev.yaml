@@ -1,0 +1,83 @@
+services:  
+  student-record-db:
+    image: postgres:15-alpine
+    container_name: student-record-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRE_USER}
+      POSTGRES_PASSWORD: ${POSTGRE_PASS}
+      POSTGRES_DB: ${POSTGRE_DB}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "5432:5432"
+    networks:
+      - srm-network
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  redis:
+      image: redis:8.0-alpine
+      container_name: redis-cache
+      restart: unless-stopped
+      command: ["redis-server"]
+      ports:
+        - "6379:6379" 
+      volumes:
+        - redis-data:/data
+      networks:
+        - srm-network
+      healthcheck:
+        test: ["CMD", "redis-cli", "ping"]
+        interval: 30s
+        timeout: 10s
+        retries: 3
+
+  srm-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: srm-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - POSTGRE_HOST=student-record-db
+      - POSTGRE_PORT=${POSTGRE_PORT}
+      - POSTGRE_DB=${POSTGRE_DB}
+      - POSTGRE_USER=${POSTGRE_USER}
+      - POSTGRE_PASS=${POSTGRE_PASS}
+      - REDIS_URL=${REDIS_URL_DOCKER}
+      - JWT_ACCESS_TOKEN_SECRET=${JWT_ACCESS_TOKEN_SECRET}
+      - JWT_ACCESS_TOKEN_EXPIRATION_TIME=${JWT_ACCESS_TOKEN_EXPIRATION_TIME}
+      - JWT_REFRESH_TOKEN_SECRET=${JWT_REFRESH_TOKEN_SECRET}
+      - JWT_REFRESH_TOKEN_EXPIRATION_TIME=${JWT_REFRESH_TOKEN_EXPIRATION_TIME}
+      - THROTTLE_TTL=${T_TTL}
+      - THROTTLE_LIMIT=${T_LIMIT}
+      - EMAIL_USER = ${EMAIL_USER}
+      - EMAIL_PASS = ${EMAIL_PASS}
+    depends_on:
+      redis:
+        condition: service_healthy
+      student-record-db:
+        condition: service_healthy
+    networks:
+      - srm-network
+    volumes:
+      - .:/app
+      - /app/node_modules
+volumes:
+  pgdata:
+    name: school-record-system-pgdata
+    driver: local
+  redis-data:
+    name: school-record-system-redis-data
+    driver: local
+
+networks: 
+  srm-network:
+    driver: bridge
