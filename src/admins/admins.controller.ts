@@ -32,19 +32,19 @@ export class AdminsController {
   }
 
   @Roles(eROLE.ADMIN)
-  @Get('/auths')
+  @Get()
   findAll() {
     return this.adminsService.findAll();
   }
 
   @Roles(eROLE.ADMIN)
-  @Get('/auths/:id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.adminsService.findOne(+id);
   }
 
   @Roles(eROLE.ADMIN)
-  @Patch('auths/:id')
+  @Patch('/:id')
   update(
     @Param('id') id: string,
     @Body() updateAdminDto: UpdateAdminDto,
@@ -54,7 +54,7 @@ export class AdminsController {
   }
 
   @Roles(eROLE.ADMIN)
-  @Delete('auths/:id')
+  @Delete('/:id')
   remove(@Param('id') id: string, @Req() request: Request) {
     return this.adminsService.remove(+id, request);
   }
